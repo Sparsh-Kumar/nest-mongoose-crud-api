@@ -1,25 +1,47 @@
 module.exports = {
-  parser: '@typescript-eslint/parser',
-  parserOptions: {
-    project: 'tsconfig.json',
-    tsconfigRootDir : __dirname, 
-    sourceType: 'module',
+  "env": {
+    "browser": true,
+    "es6": true,
+    "node": true
   },
-  plugins: ['@typescript-eslint/eslint-plugin'],
-  extends: [
-    'plugin:@typescript-eslint/recommended',
-    'plugin:prettier/recommended',
+  "extends": [
+    "airbnb-base"
   ],
-  root: true,
-  env: {
-    node: true,
-    jest: true,
-  },
-  ignorePatterns: ['.eslintrc.js'],
-  rules: {
-    '@typescript-eslint/interface-name-prefix': 'off',
-    '@typescript-eslint/explicit-function-return-type': 'off',
-    '@typescript-eslint/explicit-module-boundary-types': 'off',
-    '@typescript-eslint/no-explicit-any': 'off',
-  },
-};
+  "ignorePatterns": [
+    "test/**/*"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "**/*.ts"
+      ],
+      "extends": [
+        "airbnb-typescript/base",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@typescript-eslint/recommended-requiring-type-checking",
+        "plugin:eslint-comments/recommended"
+      ],
+      "parserOptions": {
+        "project": "./tsconfig.eslint.json"
+      },
+      "rules": {
+        "@typescript-eslint/no-unsafe-member-access": "off",
+        "@typescript-eslint/unbound-method": [
+          "error",
+          {
+            "ignoreStatic": true
+          }
+        ],
+        "eslint-comments/disable-enable-pair": "off",
+        "import/no-extraneous-dependencies": [
+          "error",
+          {
+            "devDependencies": true
+          }
+        ],
+        "no-underscore-dangle": "off",
+        "linebreak-style": 0
+      }
+    }
+  ]
+}
