@@ -1,7 +1,7 @@
-enum NODE_ENV_TYPES {
+enum NodeEnvTypes {
   DEVELOPMENT = 'DEVELOPMENT',
   TEST = 'TEST',
   PRODUCTION = 'PRODUCTION',
 }
 
-export default NODE_ENV_TYPES;
+export default NodeEnvTypes;

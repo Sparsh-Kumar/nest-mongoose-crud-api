@@ -12,7 +12,7 @@ import { WINSTON_LOGGER } from './constants';
 @Injectable({
   scope: Scope.TRANSIENT,
 })
-export class LoggerService {
+export default class LoggerService {
   constructor(
     @Inject(WINSTON_LOGGER) private readonly winstonLogger: winston.Logger,
   ) {}
