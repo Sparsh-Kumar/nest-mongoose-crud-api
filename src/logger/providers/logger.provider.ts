@@ -19,7 +19,7 @@ const setMetaData = (
   return info;
 });
 
-export const loggerProvider = [
+const loggerProvider = [
   {
     provide: WINSTON_LOGGER,
     useFactory(): Logger {
