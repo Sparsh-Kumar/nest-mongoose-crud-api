@@ -20,7 +20,7 @@ export default class JWTStrategy extends PassportStrategy(Strategy) {
     payload: DecodedJWTPayload,
   ): Promise<UserDocument> | never {
     const { id }: { id: string } = payload;
-    const userDetails: UserDocument = await this._userService.findById(id);
+    const userDetails: UserDocument | void = await this._userService.findById(id);
     if (!userDetails) {
       throw new UnauthorizedException();
     }

@@ -1,5 +1,11 @@
-import { Controller } from '@nestjs/common';
+import {
+  Body, Controller, Post, UsePipes, ValidationPipe,
+} from '@nestjs/common';
 import LoggerService from '../logger/logger.service';
+import SignInDto from './dtos/signin.dto';
+import SignUpDto from './dtos/signup.dto';
+import { UserDocument } from './schemas/user.schema';
+import { TokenDetails } from './types';
 import UsersService from './users.service';
 
 @Controller('users')
@@ -8,4 +14,16 @@ export default class UsersController {
     private _loggerService: LoggerService,
     private _userService: UsersService,
   ) {}
+
+  @Post('signup')
+  @UsePipes(ValidationPipe)
+  public async signUp(@Body() signUpDto: SignUpDto): Promise<UserDocument> {
+    return this._userService.signUp(signUpDto);
+  }
+
+  @Post('signin')
+  @UsePipes(ValidationPipe)
+  public async signIn(@Body() signInDto: SignInDto): Promise<TokenDetails> {
+    return this._userService.signIn(signInDto);
+  }
 }
