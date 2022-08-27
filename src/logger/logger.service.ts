@@ -17,25 +17,25 @@ export default class LoggerService {
     @Inject(WINSTON_LOGGER) private readonly winstonLogger: winston.Logger,
   ) {}
 
-  logInfo(message: string): void {
+  public logInfo(message: string): void {
     this.winstonLogger.info({
       message,
     });
   }
 
-  logDebug(message: string): void {
+  public logDebug(message: string): void {
     this.winstonLogger.debug({
       message,
     });
   }
 
-  logWarning(message: string): void {
+  public logWarning(message: string): void {
     this.winstonLogger.warn({
       message,
     });
   }
 
-  logError(message: string): void {
+  public logError(message: string): void {
     this.winstonLogger.error({
       message,
     });
