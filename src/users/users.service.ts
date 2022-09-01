@@ -1,5 +1,4 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
-import { TokenExpiredError } from 'jsonwebtoken';
 import { JwtService } from '@nestjs/jwt';
 import EmailService from 'src/notification/email.service';
 import { SenderEmailBody } from 'src/notification/types';
