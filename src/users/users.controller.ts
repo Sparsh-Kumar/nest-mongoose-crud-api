@@ -1,5 +1,5 @@
 import {
-  Body, Controller, Post, UsePipes, ValidationPipe,
+  Body, Controller, Get, Param, Post, UsePipes, ValidationPipe,
 } from '@nestjs/common';
 import LoggerService from '../logger/logger.service';
 import SignInDto from './dtos/signin.dto';
@@ -17,13 +17,20 @@ export default class UsersController {
 
   @Post('signup')
   @UsePipes(ValidationPipe)
-  public async signUp(@Body() signUpDto: SignUpDto): Promise<UserDocument> {
-    return this._userService.signUp(signUpDto);
+  public async signUp(@Body() signUpDto: SignUpDto): Promise<void> | never {
+    await this._userService.createMagicLink(signUpDto);
   }
 
   @Post('signin')
   @UsePipes(ValidationPipe)
   public async signIn(@Body() signInDto: SignInDto): Promise<TokenDetails> {
     return this._userService.signIn(signInDto);
+  }
+
+  @Get(':token')
+  public async createUser(
+    @Param('token') regToken: string,
+  ): Promise<UserDocument> | never {
+    return this._userService.createUserByRegToken(regToken);
   }
 }

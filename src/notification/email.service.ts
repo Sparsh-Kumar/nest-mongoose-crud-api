@@ -9,10 +9,6 @@ export default class EmailService {
   }
 
   public static async sendEmail(emailBody: SenderEmailBody) {
-    try {
-      await sendGridMail.send(emailBody);
-    } catch (e) {
-      console.log(e);
-    }
+    await sendGridMail.send(emailBody);
   }
 }
