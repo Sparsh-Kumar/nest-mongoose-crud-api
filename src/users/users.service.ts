@@ -67,17 +67,13 @@ export default class UsersService {
   }
 
   public async createUserByRegToken(regToken: string): Promise<UserDocument> | never {
-    try {
-      const decodedUser: SignUpDto = this._jwtService.verify(
-        regToken,
-        <{ secret: string }>{
-          secret: process.env.JWT_SECRET,
-        },
-      );
-      return await this._userRepository.createUser(decodedUser);
-    } catch (e) {
-      throw new UnauthorizedException('Token Expired / Malformed');
-    }
+    const decodedUser: SignUpDto = this._jwtService.verify(
+      regToken,
+      <{ secret: string }>{
+        secret: process.env.JWT_SECRET,
+      },
+    );
+    return this._userRepository.createUser(decodedUser);
   }
 
   public async signIn(signInDto: SignInDto): Promise<TokenDetails> {
