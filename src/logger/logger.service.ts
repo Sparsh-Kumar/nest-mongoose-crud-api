@@ -19,25 +19,19 @@ export default class LoggerService {
 
   public logInfo(message: string): void {
     this.winstonLogger.info({
-      message,
-    });
-  }
-
-  public logDebug(message: string): void {
-    this.winstonLogger.debug({
-      message,
+      message: `INFO - ${message}`,
     });
   }
 
   public logWarning(message: string): void {
     this.winstonLogger.warn({
-      message,
+      message: `WARN - ${message}`,
     });
   }
 
   public logError(message: string): void {
     this.winstonLogger.error({
-      message,
+      message: `ERROR - ${message}`,
     });
   }
 }
