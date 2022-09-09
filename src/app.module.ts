@@ -1,9 +1,11 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import { APP_INTERCEPTOR } from '@nestjs/core';
 import NotificationModule from './notification/notification.module';
 import LoggerModule from './logger/logger.module';
 import UsersModule from './users/users.module';
+import HttpLoggingInterceptor from './logger/interceptors/logging.interceptor';
 
 @Module({
   imports: [
@@ -13,6 +15,11 @@ import UsersModule from './users/users.module';
     NotificationModule,
   ],
   controllers: [],
-  providers: [],
+  providers: [
+    {
+      provide: APP_INTERCEPTOR,
+      useClass: HttpLoggingInterceptor,
+    },
+  ],
 })
 export default class AppModule {}
