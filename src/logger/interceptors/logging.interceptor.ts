@@ -11,7 +11,7 @@ import {
 
 @Injectable()
 export default class HttpLoggingInterceptor implements NestInterceptor {
-  constructor(private _logger: LoggerService) { }
+  constructor(private readonly _logger: LoggerService) { }
 
   intercept(
     context: ExecutionContext,
