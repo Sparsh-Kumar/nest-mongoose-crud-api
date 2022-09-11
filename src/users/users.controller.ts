@@ -1,7 +1,6 @@
 import {
   Body, Controller, Get, Param, Post, UsePipes, ValidationPipe,
 } from '@nestjs/common';
-import LoggerService from '../logger/logger.service';
 import SignInDto from './dtos/signin.dto';
 import SignUpDto from './dtos/signup.dto';
 import { UserDocument } from './schemas/user.schema';
@@ -11,7 +10,6 @@ import UsersService from './users.service';
 @Controller('users')
 export default class UsersController {
   constructor(
-    private readonly _loggerService: LoggerService,
     private readonly _userService: UsersService,
   ) {}
 

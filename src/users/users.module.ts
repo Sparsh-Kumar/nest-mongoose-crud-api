@@ -1,7 +1,6 @@
 import { Module } from '@nestjs/common';
 import { JwtModule } from '@nestjs/jwt';
 import { MongooseModule } from '@nestjs/mongoose';
-import LoggerModule from 'src/logger/logger.module';
 import NotificationModule from 'src/notification/notification.module';
 import { User, UserSchema } from './schemas/user.schema';
 import JWTStrategy from './strategy/jwt-strategy';
@@ -11,7 +10,6 @@ import UsersService from './users.service';
 
 @Module({
   imports: [
-    LoggerModule,
     NotificationModule,
     MongooseModule.forFeature([
       { name: User.name, schema: UserSchema },

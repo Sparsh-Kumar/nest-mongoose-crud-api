@@ -8,7 +8,9 @@ module.exports = {
     "airbnb-base"
   ],
   "ignorePatterns": [
-    "test/**/*"
+    "test/**/*",
+    "**/*.spec.ts",
+    "**/test/**/*",
   ],
   "overrides": [
     {
