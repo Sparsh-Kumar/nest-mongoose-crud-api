@@ -11,8 +11,8 @@ import UsersService from './users.service';
 @Controller('users')
 export default class UsersController {
   constructor(
-    private _loggerService: LoggerService,
-    private _userService: UsersService,
+    private readonly _loggerService: LoggerService,
+    private readonly _userService: UsersService,
   ) {}
 
   @Post('signup')
