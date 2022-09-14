@@ -8,7 +8,7 @@ import UserHelper from './helpers/user-helper';
 import { TokenDetails } from '../types';
 import { User } from '../schemas/user.schema';
 
-describe('Users Controller [Unit Test]', () => {
+describe('Users Controller [Unit Test]', function () {
   let usersController: UsersController;
   let usersService: UsersService;
   beforeEach(async function () {
@@ -40,7 +40,7 @@ describe('Users Controller [Unit Test]', () => {
   });
   test('signin', async function () {
     const userSignInBody: SignInDto = <SignInDto>UserHelper.generateCreds();
-    const signInResponse: TokenDetails = await usersController.signIn(userSignInBody);
+    const signInResponse: TokenDetails = <TokenDetails>await usersController.signIn(userSignInBody);
     expect(usersService.signIn).toHaveBeenCalled();
     expect(signInResponse).toHaveProperty('accessToken');
     expect(signInResponse['accessToken']).toEqual('accessTokenValue');
