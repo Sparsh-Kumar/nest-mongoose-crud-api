@@ -1,7 +1,7 @@
 import { BadRequestException, Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
-import EmailService from 'src/notification/email.service';
-import { SenderEmailBody } from 'src/notification/types';
+import EmailService from '../notification/email.service';
+import { SenderEmailBody } from '../notification/types';
 import SignInDto from './dtos/signin.dto';
 import SignUpDto from './dtos/signup.dto';
 import { UserDocument } from './schemas/user.schema';
@@ -25,10 +25,6 @@ export default class UsersService {
 
   public async findById(id: string): Promise<UserDocument> {
     return this._userRepository.findById(id);
-  }
-
-  public async createUser(signUpDto: SignUpDto): Promise<UserDocument> {
-    return this._userRepository.createUser(signUpDto);
   }
 
   // TODO: You can select different value for 'secret' and 'expiresIn' for registration Token.
