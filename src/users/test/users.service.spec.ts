@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import * as sendGridMail from '@sendgrid/mail';
 import { Test, TestingModule } from '@nestjs/testing';
 import UsersService from '../users.service';
 import { JwtService, JwtSignOptions } from '@nestjs/jwt';
@@ -14,7 +16,10 @@ describe('Users Service [Unit Test]', function() {
   let usersService: UsersService;
   let usersRepository: UsersRepository;
   let jwtService: JwtService;
+  let sinonSandbox: sinon.SinonSandbox;
   beforeEach(async function() {
+    sinonSandbox = sinon.createSandbox();
+    sinonSandbox.stub(sendGridMail, <any>'setApiKey').returns(Promise.resolve('1'));
     const userModule: TestingModule = await Test.createTestingModule({
       imports: [
         NotificationModule,
@@ -48,6 +53,9 @@ describe('Users Service [Unit Test]', function() {
     usersService = userModule.get<UsersService>(UsersService);
     usersRepository = userModule.get<UsersRepository>(UsersRepository);
     jwtService = userModule.get<JwtService>(JwtService);
+  });
+  afterEach(async function() {
+    sinonSandbox.restore();
   });
   test('findOne', async function() {
     const foundUser: User = await usersService.findOne({});
