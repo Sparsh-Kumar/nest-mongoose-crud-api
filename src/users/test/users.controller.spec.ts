@@ -1,3 +1,5 @@
+import * as sinon from 'sinon';
+import * as sendGridMail from '@sendgrid/mail';
 import { Test, TestingModule } from '@nestjs/testing';
 import UsersController from '../users.controller';
 import UsersService from '../users.service';
@@ -11,7 +13,10 @@ import { User } from '../schemas/user.schema';
 describe('Users Controller [Unit Test]', function () {
   let usersController: UsersController;
   let usersService: UsersService;
+  let sinonSandbox: sinon.SinonSandbox;
   beforeEach(async function () {
+    sinonSandbox = sinon.createSandbox();
+    sinonSandbox.stub(sendGridMail, <any>'setApiKey').returns(Promise.resolve('1'));
     const userModule: TestingModule = await Test.createTestingModule({
       imports: [
         NotificationModule,
@@ -32,6 +37,9 @@ describe('Users Controller [Unit Test]', function () {
     }).compile();
     usersController = userModule.get<UsersController>(UsersController);
     usersService = userModule.get<UsersService>(UsersService);
+  });
+  afterEach(async function() {
+    sinonSandbox.restore();
   });
   test('signup', async function () {
     const userSignUpBody: SignUpDto = <SignUpDto>UserHelper.generateCreds();
