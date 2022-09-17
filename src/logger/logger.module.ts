@@ -4,6 +4,6 @@ import loggerProvider from './providers/logger.provider';
 
 @Module({
   providers: [LoggerService, ...loggerProvider],
-  exports: [LoggerService, ...loggerProvider],
+  exports: [LoggerService],
 })
 export default class LoggerModule {}

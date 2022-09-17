@@ -9,9 +9,7 @@ import { WINSTON_LOGGER } from './constants';
  */
 
 // TODO: Log warnings and errors into Sentry
-@Injectable({
-  scope: Scope.TRANSIENT,
-})
+@Injectable()
 export default class LoggerService {
   constructor(
     @Inject(WINSTON_LOGGER) private readonly winstonLogger: winston.Logger,

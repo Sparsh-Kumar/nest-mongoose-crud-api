@@ -1,6 +1,6 @@
 import * as sinon from 'sinon';
 import EmailService from '../email.service';
-import { SenderEmailBody } from '../types';
+import { LooseObject, SenderEmailBody } from '../types';
 import * as sendGridMail from '@sendgrid/mail';
 import EmailHelper from './helpers/email-helper';
 
@@ -14,7 +14,7 @@ describe('Email Service [Unit Test]', function() {
   });
   test('sendEmail', async function() {
     const emailSentBody: SenderEmailBody = EmailHelper.createEmailSenderBody();
-    const apiStub = sinonSandbox.stub(sendGridMail, <any>'send').returns(Promise.resolve('1'));
+    const apiStub: sinon.SinonStub<LooseObject[], LooseObject> = sinonSandbox.stub(sendGridMail, <any>'send').returns(Promise.resolve('1'));
     await EmailService.sendEmail(emailSentBody);
     expect(apiStub.calledOnce).toBeTruthy();
   });
