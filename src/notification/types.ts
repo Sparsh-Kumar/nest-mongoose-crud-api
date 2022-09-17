@@ -5,3 +5,7 @@ export type SenderEmailBody = {
   text: string;
   html: string;
 };
+
+export interface LooseObject {
+  [key: string]: any
+}
