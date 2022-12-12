@@ -7,9 +7,7 @@ import UsersService from '../users.service';
 
 @Injectable()
 export default class JWTStrategy extends PassportStrategy(Strategy) {
-  constructor(
-    private readonly _userService: UsersService,
-  ) {
+  constructor(private readonly _userService: UsersService) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
       secretOrKey: process.env.JWT_SECRET,
@@ -20,7 +18,9 @@ export default class JWTStrategy extends PassportStrategy(Strategy) {
     payload: DecodedJWTPayload,
   ): Promise<UserDocument> | never {
     const { id }: { id: string } = payload;
-    const userDetails: UserDocument | void = await this._userService.findById(id);
+    const userDetails: UserDocument | void = await this._userService.findById(
+      id,
+    );
     if (!userDetails) {
       throw new UnauthorizedException();
     }

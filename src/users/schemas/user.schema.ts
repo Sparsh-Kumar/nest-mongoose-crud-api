@@ -10,7 +10,7 @@ export class User {
     min: 5,
     max: 50,
   })
-    username: string;
+  username: string;
 
   @Prop({
     unique: true,
@@ -18,17 +18,17 @@ export class User {
     min: 10,
     max: 60,
   })
-    email: string;
+  email: string;
 
   @Prop({
     required: true,
     min: 5,
     max: 50,
   })
-    password: string;
+  password: string;
 
   @Prop({})
-    salt: string;
+  salt: string;
 }
 
 export const UserSchema = SchemaFactory.createForClass(User);
@@ -40,7 +40,9 @@ UserSchema.pre('save', async function (next): Promise<void> {
   this.salt = salt;
   next();
 });
-UserSchema.methods.validatePassword = async function (password: string): Promise<boolean> {
-  const hashValue: string = await bcrypt.hash(password, <string> this.salt);
+UserSchema.methods.validatePassword = async function (
+  password: string,
+): Promise<boolean> {
+  const hashValue: string = await bcrypt.hash(password, <string>this.salt);
   return hashValue === this.password;
 };

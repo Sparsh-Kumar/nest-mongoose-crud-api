@@ -14,10 +14,11 @@ import NodeEnvTypes from '../types';
 // TODO: Make use of Dtos to validate NODE_ENV
 const setMetaData = (
   NODE_ENV: NodeEnvTypes = NodeEnvTypes.DEVELOPMENT,
-): FormatWrap => format((info): TransformableInfo => {
-  info.NODE_ENV = NODE_ENV;
-  return info;
-});
+): FormatWrap =>
+  format((info): TransformableInfo => {
+    info.NODE_ENV = NODE_ENV;
+    return info;
+  });
 
 const loggerProvider = [
   {

@@ -15,18 +15,17 @@ import { LooseExceptionsObject, LooseObject } from './types';
 @Catch()
 export default class AllExceptionsFilter implements ExceptionFilter {
   constructor(
-    private readonly _httpAdapterHost: HttpAdapterHost<AbstractHttpAdapter<any, any, any>>,
-  ) { }
+    private readonly _httpAdapterHost: HttpAdapterHost<
+      AbstractHttpAdapter<any, any, any>
+    >,
+  ) {}
 
-  catch(
-    exception: LooseExceptionsObject,
-    host: ArgumentsHost,
-  ): void {
+  catch(exception: LooseExceptionsObject, host: ArgumentsHost): void {
     Sentry.captureException(exception);
     const {
       httpAdapter,
     }: {
-      httpAdapter: AbstractHttpAdapter<any, any, any>
+      httpAdapter: AbstractHttpAdapter<any, any, any>;
     } = this._httpAdapterHost;
     const ctx: HttpArgumentsHost = host.switchToHttp();
     let { response } = exception;
@@ -37,7 +36,9 @@ export default class AllExceptionsFilter implements ExceptionFilter {
         break;
       case exception instanceof TokenExpiredError:
         httpStatus = <number>HttpStatus.UNAUTHORIZED;
-        response = <LooseObject> new UnauthorizedException('JWT Expired / Malformed.').getResponse();
+        response = <LooseObject>(
+          new UnauthorizedException('JWT Expired / Malformed.').getResponse()
+        );
         break;
       default:
         httpStatus = <number>HttpStatus.INTERNAL_SERVER_ERROR;

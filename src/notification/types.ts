@@ -7,5 +7,5 @@ export type SenderEmailBody = {
 };
 
 export interface LooseObject {
-  [key: string]: any
+  [key: string]: any;
 }

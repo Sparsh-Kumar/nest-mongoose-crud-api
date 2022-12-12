@@ -1,17 +1,25 @@
 import {
-  Injectable, NestInterceptor, ExecutionContext, HttpException, HttpStatus, CallHandler,
+  Injectable,
+  NestInterceptor,
+  ExecutionContext,
+  HttpException,
+  HttpStatus,
+  CallHandler,
 } from '@nestjs/common';
 import { TokenExpiredError } from 'jsonwebtoken';
 import { Observable, throwError } from 'rxjs';
 import { catchError, tap } from 'rxjs/operators';
 import LoggerService from 'src/logger/logger.service';
 import {
-  LooseExceptionsObject, LooseObject, LooseRequestObject, MethodTypes,
+  LooseExceptionsObject,
+  LooseObject,
+  LooseRequestObject,
+  MethodTypes,
 } from '../types';
 
 @Injectable()
 export default class HttpLoggingInterceptor implements NestInterceptor {
-  constructor(private readonly _logger: LoggerService) { }
+  constructor(private readonly _logger: LoggerService) {}
 
   intercept(
     context: ExecutionContext,
@@ -23,45 +31,43 @@ export default class HttpLoggingInterceptor implements NestInterceptor {
     const { method } = request;
     const url: string = request.originalUrl;
 
-    return next
-      .handle()
-      .pipe(
-        tap((): void => {
-          const delay: number = Date.now() - now;
-          this._logger.logInfo(
-            HttpLoggingInterceptor.createLogMessage(
-              <number>response.statusCode,
-              method,
-              url,
-              delay,
-            ),
-          );
-        }),
-        catchError((exception: LooseExceptionsObject): Observable<never> => {
-          let httpStatus: number;
-          switch (true) {
-            case exception instanceof HttpException:
-              httpStatus = exception.getStatus();
-              break;
-            case exception instanceof TokenExpiredError:
-              httpStatus = <number>HttpStatus.UNAUTHORIZED;
-              break;
-            default:
-              httpStatus = <number>HttpStatus.INTERNAL_SERVER_ERROR;
-              break;
-          }
-          const delay: number = Date.now() - now;
-          this._logger.logError(
-            HttpLoggingInterceptor.createLogMessage(
-              httpStatus,
-              method,
-              url,
-              delay,
-            ),
-          );
-          return throwError(exception);
-        }),
-      );
+    return next.handle().pipe(
+      tap((): void => {
+        const delay: number = Date.now() - now;
+        this._logger.logInfo(
+          HttpLoggingInterceptor.createLogMessage(
+            <number>response.statusCode,
+            method,
+            url,
+            delay,
+          ),
+        );
+      }),
+      catchError((exception: LooseExceptionsObject): Observable<never> => {
+        let httpStatus: number;
+        switch (true) {
+          case exception instanceof HttpException:
+            httpStatus = exception.getStatus();
+            break;
+          case exception instanceof TokenExpiredError:
+            httpStatus = <number>HttpStatus.UNAUTHORIZED;
+            break;
+          default:
+            httpStatus = <number>HttpStatus.INTERNAL_SERVER_ERROR;
+            break;
+        }
+        const delay: number = Date.now() - now;
+        this._logger.logError(
+          HttpLoggingInterceptor.createLogMessage(
+            httpStatus,
+            method,
+            url,
+            delay,
+          ),
+        );
+        return throwError(exception);
+      }),
+    );
   }
 
   private static createLogMessage(

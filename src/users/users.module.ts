@@ -11,9 +11,7 @@ import UsersService from './users.service';
 @Module({
   imports: [
     NotificationModule,
-    MongooseModule.forFeature([
-      { name: User.name, schema: UserSchema },
-    ]),
+    MongooseModule.forFeature([{ name: User.name, schema: UserSchema }]),
     JwtModule.register({}),
   ],
   controllers: [UsersController],

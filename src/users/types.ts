@@ -5,7 +5,7 @@ export type DecodedJWTPayload = {
 };
 
 export interface LooseObject {
-  [key: string]: any
+  [key: string]: any;
 }
 
 export type TokenDetails = {
@@ -13,7 +13,7 @@ export type TokenDetails = {
 };
 
 export type UserSchemaMethods = {
-  validatePassword(password: string): Promise<boolean>,
+  validatePassword(password: string): Promise<boolean>;
 };
 
 export type UserDocWithSchemaMethods = UserDocument & UserSchemaMethods;

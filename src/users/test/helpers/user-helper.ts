@@ -1,5 +1,5 @@
-import { User } from "src/users/schemas/user.schema";
-import { Creds } from "./types";
+import { User } from 'src/users/schemas/user.schema';
+import { Creds } from './types';
 import * as passwordGenerator from 'generate-password';
 
 export default class UserHelper {
@@ -25,7 +25,7 @@ export default class UserHelper {
       username: this.generateUsername(),
       email: this.generateEmail(),
       password: this.generatePassword(),
-    }
+    };
   }
   public static generateUser(): User {
     return {
@@ -33,6 +33,6 @@ export default class UserHelper {
       email: this.generateEmail(),
       password: this.generatePassword(),
       salt: this.generateRandomString(),
-    }
+    };
   }
 }

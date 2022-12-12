@@ -21,7 +21,8 @@ module.exports = {
         "airbnb-typescript/base",
         "plugin:@typescript-eslint/recommended",
         "plugin:@typescript-eslint/recommended-requiring-type-checking",
-        "plugin:eslint-comments/recommended"
+        "plugin:eslint-comments/recommended",
+        "prettier",
       ],
       "parserOptions": {
         "project": "./tsconfig.eslint.json"

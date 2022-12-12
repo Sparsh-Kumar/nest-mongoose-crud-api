@@ -10,7 +10,8 @@ import HttpLoggingInterceptor from './logger/interceptors/logging.interceptor';
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    LoggerModule, UsersModule,
+    LoggerModule,
+    UsersModule,
     MongooseModule.forRoot(process.env.MONGODB_URI),
     NotificationModule,
   ],

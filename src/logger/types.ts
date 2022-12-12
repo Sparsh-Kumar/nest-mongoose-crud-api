@@ -12,15 +12,15 @@ export enum MethodTypes {
 }
 
 export interface LooseObject {
-  [key: string]: any
+  [key: string]: any;
 }
 
 export interface ExceptionObject {
-  getStatus(): number
+  getStatus(): number;
 }
 
 export interface RequestObject {
-  method: MethodTypes,
+  method: MethodTypes;
   originalUrl: string;
 }
 

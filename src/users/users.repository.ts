@@ -29,18 +29,17 @@ export default class UsersRepository {
       email,
       password,
     }: {
-      username: string,
-      email: string,
-      password: string
+      username: string;
+      email: string;
+      password: string;
     } = signUpDto;
     const existingUser: UserDocument | void = await this.findOne({
-      $or: [
-        { username },
-        { email },
-      ],
+      $or: [{ username }, { email }],
     });
     if (existingUser) {
-      throw new BadRequestException('User with provided username / email already exists');
+      throw new BadRequestException(
+        'User with provided username / email already exists',
+      );
     }
     return this._userModel.create({ username, email, password });
   }

@@ -7,10 +7,10 @@ import UserHelper from './helpers/user-helper';
 import SignUpDto from '../dtos/signup.dto';
 import { BadRequestException } from '@nestjs/common';
 
-describe('Users Repository [Unit Test]', function() {
+describe('Users Repository [Unit Test]', function () {
   let userModel: Model<UserDocument>;
   let userRepository: UsersRepository;
-  beforeEach(async function() {
+  beforeEach(async function () {
     const userModule: TestingModule = await Test.createTestingModule({
       providers: [
         UsersRepository,
@@ -23,12 +23,14 @@ describe('Users Repository [Unit Test]', function() {
     userModel = userModule.get<Model<UserDocument>>(getModelToken(User.name));
     userRepository = userModule.get<UsersRepository>(UsersRepository);
   });
-  test('Mocked User Repo should be defined.', function() {
+  test('Mocked User Repo should be defined.', function () {
     expect(userRepository).toBeDefined();
   });
-  test('findOne', async function() {
+  test('findOne', async function () {
     const user: User = UserHelper.generateUser();
-    const spy: jest.SpyInstance = <jest.SpyInstance>jest.spyOn(userModel, 'findOne').mockResolvedValue(user);
+    const spy: jest.SpyInstance = <jest.SpyInstance>(
+      jest.spyOn(userModel, 'findOne').mockResolvedValue(user)
+    );
     const foundUser: User = await userRepository.findOne({});
     expect(foundUser).toHaveProperty('username');
     expect(foundUser).toHaveProperty('email');
@@ -36,10 +38,12 @@ describe('Users Repository [Unit Test]', function() {
     expect(foundUser).toHaveProperty('salt');
     expect(spy).toBeCalled();
   });
-  test('findAll', async function() {
+  test('findAll', async function () {
     const user: User = UserHelper.generateUser();
-    const spy: jest.SpyInstance = <jest.SpyInstance>jest.spyOn(userModel, 'find').mockResolvedValue([user]);
-    const foundUsers: User [] = await userRepository.findAll({});
+    const spy: jest.SpyInstance = <jest.SpyInstance>(
+      jest.spyOn(userModel, 'find').mockResolvedValue([user])
+    );
+    const foundUsers: User[] = await userRepository.findAll({});
     expect(foundUsers).toHaveLength(1);
     expect(foundUsers[0]).toHaveProperty('username');
     expect(foundUsers[0]).toHaveProperty('email');
@@ -47,10 +51,12 @@ describe('Users Repository [Unit Test]', function() {
     expect(foundUsers[0]).toHaveProperty('salt');
     expect(spy).toBeCalled();
   });
-  test('findById', async function() {
+  test('findById', async function () {
     const id = UserHelper.generateRandomString();
     const user: User = UserHelper.generateUser();
-    const spy: jest.SpyInstance = <jest.SpyInstance>jest.spyOn(userModel, 'findById').mockResolvedValue(user);
+    const spy: jest.SpyInstance = <jest.SpyInstance>(
+      jest.spyOn(userModel, 'findById').mockResolvedValue(user)
+    );
     const foundUser: User = await userRepository.findById(id);
     expect(foundUser).toHaveProperty('username');
     expect(foundUser).toHaveProperty('email');
@@ -58,15 +64,23 @@ describe('Users Repository [Unit Test]', function() {
     expect(foundUser).toHaveProperty('salt');
     expect(spy).toBeCalled();
   });
-  test('createUser - If User already exists.', async function() {
+  test('createUser - If User already exists.', async function () {
     const user: User = UserHelper.generateUser();
-    const findOneSpy: jest.SpyInstance = <jest.SpyInstance>jest.spyOn(userModel, 'findOne').mockResolvedValue(user);
-    await expect(userRepository.createUser(<SignUpDto>user)).rejects.toThrowError(BadRequestException);
+    const findOneSpy: jest.SpyInstance = <jest.SpyInstance>(
+      jest.spyOn(userModel, 'findOne').mockResolvedValue(user)
+    );
+    await expect(
+      userRepository.createUser(<SignUpDto>user),
+    ).rejects.toThrowError(BadRequestException);
   });
-  test('createUser = If User does not exist already.', async function() {
+  test('createUser = If User does not exist already.', async function () {
     const user: User = UserHelper.generateUser();
-    const findOneSpy: jest.SpyInstance = <jest.SpyInstance>jest.spyOn(userModel, 'findOne').mockResolvedValue(null);
-    const createSpy: jest.SpyInstance = <jest.SpyInstance>jest.spyOn(userModel, 'create').mockResolvedValue(user as never); // Fix for this typecasting ?
+    const findOneSpy: jest.SpyInstance = <jest.SpyInstance>(
+      jest.spyOn(userModel, 'findOne').mockResolvedValue(null)
+    );
+    const createSpy: jest.SpyInstance = <jest.SpyInstance>(
+      jest.spyOn(userModel, 'create').mockResolvedValue(user as never)
+    ); // Fix for this typecasting ?
     const createdUser: User = await userRepository.createUser(<SignUpDto>user);
     expect(createdUser).toHaveProperty('username');
     expect(createdUser).toHaveProperty('email');

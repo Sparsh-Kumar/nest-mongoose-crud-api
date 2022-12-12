@@ -4,17 +4,19 @@ import { LooseObject, SenderEmailBody } from '../types';
 import * as sendGridMail from '@sendgrid/mail';
 import EmailHelper from './helpers/email-helper';
 
-describe('Email Service [Unit Test]', function() {
+describe('Email Service [Unit Test]', function () {
   let sinonSandbox: sinon.SinonSandbox;
-  beforeEach(async function() {
+  beforeEach(async function () {
     sinonSandbox = sinon.createSandbox();
   });
-  afterEach(async function() {
+  afterEach(async function () {
     sinonSandbox.restore();
   });
-  test('sendEmail', async function() {
+  test('sendEmail', async function () {
     const emailSentBody: SenderEmailBody = EmailHelper.createEmailSenderBody();
-    const apiStub: sinon.SinonStub<LooseObject[], LooseObject> = sinonSandbox.stub(sendGridMail, <any>'send').returns(Promise.resolve('1'));
+    const apiStub: sinon.SinonStub<LooseObject[], LooseObject> = sinonSandbox
+      .stub(sendGridMail, <any>'send')
+      .returns(Promise.resolve('1'));
     await EmailService.sendEmail(emailSentBody);
     expect(apiStub.calledOnce).toBeTruthy();
   });

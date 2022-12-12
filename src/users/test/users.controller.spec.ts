@@ -16,20 +16,22 @@ describe('Users Controller [Unit Test]', function () {
   let sinonSandbox: sinon.SinonSandbox;
   beforeEach(async function () {
     sinonSandbox = sinon.createSandbox();
-    sinonSandbox.stub(sendGridMail, <any>'setApiKey').returns(Promise.resolve('1'));
+    sinonSandbox
+      .stub(sendGridMail, <any>'setApiKey')
+      .returns(Promise.resolve('1'));
     const userModule: TestingModule = await Test.createTestingModule({
-      imports: [
-        NotificationModule,
-      ],
+      imports: [NotificationModule],
       controllers: [UsersController],
       providers: [
         {
           provide: UsersService,
           useFactory: () => ({
             createMagicLink: jest.fn(async () => null),
-            createUserByRegToken: jest.fn(async () => UserHelper.generateUser()),
+            createUserByRegToken: jest.fn(async () =>
+              UserHelper.generateUser(),
+            ),
             signIn: jest.fn(async () => {
-              return { accessToken: 'accessTokenValue' }
+              return { accessToken: 'accessTokenValue' };
             }),
           }),
         },
@@ -38,7 +40,7 @@ describe('Users Controller [Unit Test]', function () {
     usersController = userModule.get<UsersController>(UsersController);
     usersService = userModule.get<UsersService>(UsersService);
   });
-  afterEach(async function() {
+  afterEach(async function () {
     sinonSandbox.restore();
   });
   test('signup', async function () {
@@ -48,14 +50,18 @@ describe('Users Controller [Unit Test]', function () {
   });
   test('signin', async function () {
     const userSignInBody: SignInDto = <SignInDto>UserHelper.generateCreds();
-    const signInResponse: TokenDetails = <TokenDetails>await usersController.signIn(userSignInBody);
+    const signInResponse: TokenDetails = <TokenDetails>(
+      await usersController.signIn(userSignInBody)
+    );
     expect(usersService.signIn).toHaveBeenCalled();
     expect(signInResponse).toHaveProperty('accessToken');
     expect(signInResponse['accessToken']).toEqual('accessTokenValue');
   });
   test('create user using token.', async function () {
     const registrationToken: string = UserHelper.generateRandomString();
-    const createdUser: User = await usersController.createUser(registrationToken);
+    const createdUser: User = await usersController.createUser(
+      registrationToken,
+    );
     expect(usersService.createUserByRegToken).toHaveBeenCalled();
     expect(createdUser).toHaveProperty('username');
     expect(createdUser).toHaveProperty('email');

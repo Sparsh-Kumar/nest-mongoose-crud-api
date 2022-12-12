@@ -1,4 +1,4 @@
-import { SenderEmailBody } from "src/notification/types";
+import { SenderEmailBody } from 'src/notification/types';
 
 export default class EmailHelper {
   public static generateRandomString(): string {

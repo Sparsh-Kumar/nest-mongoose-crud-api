@@ -1,5 +1,11 @@
 import {
-  Body, Controller, Get, Param, Post, UsePipes, ValidationPipe,
+  Body,
+  Controller,
+  Get,
+  Param,
+  Post,
+  UsePipes,
+  ValidationPipe,
 } from '@nestjs/common';
 import SignInDto from './dtos/signin.dto';
 import SignUpDto from './dtos/signup.dto';
@@ -9,9 +15,7 @@ import UsersService from './users.service';
 
 @Controller('users')
 export default class UsersController {
-  constructor(
-    private readonly _userService: UsersService,
-  ) {}
+  constructor(private readonly _userService: UsersService) {}
 
   @Post('signup')
   @UsePipes(ValidationPipe)
